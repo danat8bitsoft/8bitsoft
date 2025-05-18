@@ -1,0 +1,10 @@
+{
+  "version": "v1.2.0",
+  "date": "2025-05-18",
+  "entries": [
+    { "type": "New", "text": "Fluent 2.0-style landing experience" },
+    { "type": "Improved", "text": "Typing logic with smarter buffer recovery" },
+    { "type": "Fixed", "text": "Clipboard paste fallback causing double replacement" },
+    { "type": "Added", "text": "Workflow builder with parameterized prompt support" }
+  ]
+}
