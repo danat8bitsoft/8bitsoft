@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typemate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .logo {
+      width: 260px;
+      max-width: 80vw;
+      height: auto;
+      margin-bottom: 2rem;
+    }
+
+    .glass {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      transition: transform 0.2s ease;
+    }
+
+    /* Light Theme Glass */
+    @media (prefers-color-scheme: light) {
+      .glass {
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      }
+
+      body {
+        background: radial-gradient(circle at top left, #e4ecf7, transparent 60%),
+                    radial-gradient(circle at bottom right, #ffe0e0, transparent 60%),
+                    radial-gradient(circle at top right, #c8fff4, transparent 60%),
+                    radial-gradient(circle at center, #f2f2f2, #dcdcdc);
+        background-color: #f0f4f8;
+        color: #2a2a2a;
+      }
+
+      footer a {
+        color: #2a2a2a;
+      }
+    }
+
+    /* Dark Theme Glass */
+    @media (prefers-color-scheme: dark) {
+      .glass {
+        background: rgba(32, 32, 32, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), inset 0 0 0.5px rgba(255, 255, 255, 0.05);
+      }
+
+      body {
+        background: radial-gradient(circle at top left, #222, transparent 60%),
+                    radial-gradient(circle at bottom right, #111, transparent 60%),
+                    radial-gradient(circle at top right, #333, transparent 60%),
+                    radial-gradient(circle at center, #000, #111);
+        background-color: #000;
+        color: #f0f0f0;
+      }
+
+      footer a {
+        color: #f0f0f0;
+      }
+    }
+
+    footer {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    footer a {
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body class="px-4 py-12 justify-start">
+
+  <!-- Logo -->
+  <img src="logo.png" alt="Typemate Logo" class="logo drop-shadow-md" />
+
+  <!-- Headline -->
+  <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Typemate</h1>
+  <p class="text-lg text-gray-700 dark:text-gray-300 max-w-xl mb-10">Smarter typing, everywhere.</p>
+
+  <!-- Features -->
+  <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 px-2">
+    <div class="glass hover:scale-[1.02]">
+      <h2 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-400">Type smarter</h2>
+      <p class="text-sm md:text-base text-gray-800 dark:text-gray-200">Turn short triggers into full phrases, code snippets, or smart responses instantly.</p>
+    </div>
+    <div class="glass hover:scale-[1.02]">
+      <h2 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-400">Works everywhere</h2>
+      <p class="text-sm md:text-base text-gray-800 dark:text-gray-200">Integrates into every app—no plugins, extensions, or cloud dependency.</p>
+    </div>
+    <div class="glass hover:scale-[1.02]">
+      <h2 class="text-xl font-semibold mb-2 text-blue-700 dark:text-blue-400">Custom workflows</h2>
+      <p class="text-sm md:text-base text-gray-800 dark:text-gray-200">Build logic with clipboard access, expressions, and variables.</p>
+    </div>
+  </div>
+
+  <!-- Download Button -->
+  <a href="/downloads/typemate-installer.exe"
+     class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-xl text-lg transition transform hover:scale-105">
+    Download Typemate
+  </a>
+
+  <!-- Footer -->
+  <footer class="mt-12 mb-6">
+    © 2025 <a href="#">Typemate</a>. All rights reserved.
+  </footer>
+
+</body>
+</html>
