@@ -121,10 +121,10 @@
   </div>
 
   <!-- Download Button -->
-  <a href="/downloads/typemate-installer.exe"
-     class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-xl text-lg transition transform hover:scale-105">
+  <button onclick="startDownloadFromJson()"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-xl text-lg transition transform hover:scale-105">
     Download Typemate
-  </a>
+  </button>
 
   <!-- Release Notes Trigger -->
   <div class="mt-4">
@@ -205,6 +205,34 @@
     window.addEventListener('keydown', e => {
       if (e.key === 'Escape') hideReleaseNotes();
     });
+
+     function startDownloadFromJson() {
+      fetch('/release.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Could not load release info');
+        return response.json();
+      })
+      .then(data => {
+        return fetch(data.url).then(res => {
+          if (!res.ok) throw new Error('Failed to download file');
+          return res.blob().then(blob => ({ blob, filename: data.filename }));
+        });
+      })
+      .then(({ blob, filename }) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename || 'download.bin';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      })
+      .catch(err => {
+        alert('Download failed: ' + err.message);
+        console.error(err);
+      });
+  }
   </script>
 </body>
 </html>
