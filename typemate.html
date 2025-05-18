@@ -128,9 +128,53 @@
     Download Typemate
   </a>
 
+<!-- Release Notes Trigger -->
+<div class="mt-4">
+  <button onclick="document.getElementById('releaseNotesModal').classList.remove('hidden')"
+          class="text-sm text-blue-500 hover:underline dark:text-blue-400">
+    View release notes
+  </button>
+</div>
+
+<!-- Release Notes Modal -->
+<div id="releaseNotesModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+<div class="relative w-full max-w-2xl p-8 rounded-2xl
+            backdrop-blur-2xl
+            border border-white/10 dark:border-white/10
+            shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_12px_60px_rgba(0,0,0,0.25)]
+            ring-1 ring-white/10 dark:ring-white/5
+            bg-white/70 dark:bg-white/5
+            text-left">
+
+    <!-- Close Button -->
+    <button onclick="document.getElementById('releaseNotesModal').classList.add('hidden')"
+            class="absolute top-4 right-4 w-9 h-9 rounded-full
+                   bg-white/30 dark:bg-white/10
+                   hover:bg-white/50 dark:hover:bg-white/20
+                   text-gray-900 dark:text-white text-base font-bold
+                   flex items-center justify-center backdrop-blur-md shadow transition">
+      &times;
+    </button>
+
+    <!-- Modal Content -->
+    <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Release Notes</h2>
+
+    <div class="text-sm text-gray-800 dark:text-gray-100">
+      <ul class="space-y-2 list-disc list-inside marker:text-blue-500 dark:marker:text-blue-400">
+        <li><span class="font-semibold">New:</span> Fluent 2.0-style landing experience</li>
+        <li><span class="font-semibold">Improved:</span> Typing logic with smarter buffer recovery</li>
+        <li><span class="font-semibold">Fixed:</span> Clipboard paste fallback causing double replacement</li>
+        <li><span class="font-semibold">Added:</span> Workflow builder with parameterized prompt support</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
   <!-- Footer -->
   <footer class="mt-12 mb-6">
-    © 2025 <a href="#">8bitsoft</a>. All rights reserved.
+    © 2025 <a href="#">Typemate</a>. All rights reserved.
   </footer>
 
 </body>
