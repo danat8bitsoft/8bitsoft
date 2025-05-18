@@ -121,10 +121,16 @@
   </div>
 
   <!-- Download Button -->
-  <button onclick="startDownloadFromJson()"
+  <button id="downloadButton"
+          onclick="startDownloadFromJson()"
           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-xl text-lg transition transform hover:scale-105">
     Download Typemate
   </button>
+  
+  <!-- Optional error message -->
+  <p id="downloadError"
+     class="hidden mt-2 text-sm text-red-500 font-semibold">
+  </p>
 
   <!-- Release Notes Trigger -->
   <div class="mt-4">
@@ -167,72 +173,103 @@
   </footer>
 
   <!-- Script -->
-  <script>
-    const modal = document.getElementById('releaseNotesModal');
-    const list = document.getElementById('changelogList');
-    const version = document.getElementById('changelogVersion');
+<script>
+  const modal = document.getElementById('releaseNotesModal');
+  const list = document.getElementById('changelogList');
+  const version = document.getElementById('changelogVersion');
+  const downloadButton = document.getElementById('downloadButton');
+  const errorDisplay = document.getElementById('downloadError');
 
-    function showReleaseNotes() {
-      modal.classList.remove('hidden');
+  let releaseInfo = null;
 
-      fetch('/changelog.json')
-        .then(res => res.json())
-        .then(data => {
-          version.textContent = `${data.version} • ${data.date}`;
-          list.innerHTML = '';
-
-          data.entries.forEach(entry => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${entry.type}:</strong> ${entry.text}`;
-            list.appendChild(li);
-          });
-        })
-        .catch(err => {
-          list.innerHTML = `<li><em>Unable to load changelog.</em></li>`;
-          version.textContent = '';
-          console.error(err);
-        });
+  function showError(message) {
+    if (errorDisplay) {
+      errorDisplay.textContent = message;
+      errorDisplay.classList.remove('hidden');
     }
+  }
 
-    function hideReleaseNotes() {
-      modal.classList.add('hidden');
-    }
+  function showReleaseNotes() {
+    modal.classList.remove('hidden');
 
-    window.addEventListener('click', e => {
-      if (e.target === modal) hideReleaseNotes();
-    });
-
-    window.addEventListener('keydown', e => {
-      if (e.key === 'Escape') hideReleaseNotes();
-    });
-
-     function startDownloadFromJson() {
-      fetch('/release.json')
-      .then(response => {
-        if (!response.ok) throw new Error('Could not load release info');
-        return response.json();
+    fetch('/changelog.json')
+      .then(res => {
+        if (!res.ok) throw new Error('Could not load changelog');
+        return res.json();
       })
       .then(data => {
-        return fetch(data.url).then(res => {
-          if (!res.ok) throw new Error('Failed to download file');
-          return res.blob().then(blob => ({ blob, filename: data.filename }));
+        version.textContent = `${data.version} • ${data.date}`;
+        list.innerHTML = '';
+
+        data.entries.forEach(entry => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${entry.type}:</strong> ${entry.text}`;
+          list.appendChild(li);
         });
       })
-      .then(({ blob, filename }) => {
+      .catch(err => {
+        console.error(err);
+        version.textContent = '';
+        list.innerHTML = `<li><em>Unable to load changelog.</em></li>`;
+      });
+  }
+
+  function hideReleaseNotes() {
+    modal.classList.add('hidden');
+  }
+
+  function startDownloadFromJson() {
+    if (!releaseInfo) {
+      showError('Release info not loaded.');
+      return;
+    }
+
+    fetch(releaseInfo.url)
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to download file');
+        return res.blob();
+      })
+      .then(blob => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = filename || 'download.bin';
+        a.download = releaseInfo.filename || 'download.bin';
         document.body.appendChild(a);
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
       })
       .catch(err => {
-        alert('Download failed: ' + err.message);
         console.error(err);
+        showError('Download failed. Please try again later.');
       });
   }
-  </script>
+
+  // Load release info on page load
+  fetch('/release.json')
+    .then(res => {
+      if (!res.ok) throw new Error('Could not load release.json');
+      return res.json();
+    })
+    .then(data => {
+      releaseInfo = data;
+      if (downloadButton && data.version) {
+        downloadButton.textContent = `Download Typemate v${data.version}`;
+      }
+    })
+    .catch(err => {
+      console.warn(err);
+      showError('Unable to load release information.');
+    });
+
+  window.addEventListener('click', e => {
+    if (e.target === modal) hideReleaseNotes();
+  });
+
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') hideReleaseNotes();
+  });
+</script>
+
 </body>
 </html>
